@@ -1,2 +1,2 @@
 # active-learning
-Active learning techniques from far and beyond
+Active learning techniques from far and beyond.
