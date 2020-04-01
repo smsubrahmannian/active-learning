@@ -10,7 +10,7 @@ def bordas_sample_score(ranking_matrix):
 def get_ranking(inp_array):
 	temp = inp_array.argsort()
 	ranks = np.empty_like(temp)
-	ranks[temp] = np.arange(len(inp_array))
+	ranks[temp] = np.arange(len(inp_array))+1
 	return ranks
 
 def uncertainty_sampling(prediction_matrix):
