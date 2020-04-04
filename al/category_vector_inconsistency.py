@@ -1,4 +1,4 @@
-from numba import njit
+from numba import njit, prange
 import numpy as np
 
 # Paper reference: https://www.sciencedirect.com/science/article/abs/pii/S0925231217313371?via%3Dihub
