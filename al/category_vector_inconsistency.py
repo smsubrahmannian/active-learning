@@ -1,4 +1,4 @@
-from numba import njit
+from numba import njit, prange
 import numpy as np
 
 # Paper reference: https://www.sciencedirect.com/science/article/abs/pii/S0925231217313371?via%3Dihub
@@ -14,7 +14,12 @@ def single_entropy(w):
     Returns:
 
     """
-    return -(1 - w) * np.log2(1 - w) if w == 0 else -(w * np.log2(w) + (1 - w) * np.log2(1 - w))
+    if w == 0:
+        return -(1-w)*np.log2(1-w)
+    elif w == 1:
+        return -w*np.log2(w)
+    else:
+        return -(w*np.log2(w)+(1-w)*np.log2(1-w))
 
 
 @njit
@@ -88,7 +93,7 @@ def single_cvi(U, T):
         return de(U, T)
 
 
-@njit
+@njit(parallel=True)
 def cvi(U_T, T_T):
     """
     Cumulative Category vector inconsistency between two 2D matrix of different sizes
@@ -102,7 +107,7 @@ def cvi(U_T, T_T):
     Ls = T_T.shape[0]
     Us = U_T.shape[0]
     fu = np.zeros(Us)
-    for i in range(Us):
+    for i in prange(Us):
         dist = np.zeros(Ls)
         for j in range(Ls):
             dist[j] = single_cvi(U_T[i], T_T[j])
